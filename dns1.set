@@ -1,0 +1,4 @@
+set system name-server 198.51.100.29
+set system name-server 198.51.100.28
+delete system name-server 198.51.100.10
+set system host-name vmx-dns1

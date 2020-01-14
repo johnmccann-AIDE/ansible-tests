@@ -1,0 +1,10 @@
+[belfast:children]
+bfs_mx
+bfs_ptx
+
+[bfs_mx]
+mx34
+mx35
+
+[bfs_ptx]
+ptx3000

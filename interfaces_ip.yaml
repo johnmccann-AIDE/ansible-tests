@@ -1,0 +1,29 @@
+---
+- name: Get device interfaces addresses rpc
+  hosts: 
+    - all
+  roles:
+    - Juniper.junos
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: get interfaces ip address using galaxy module
+      juniper_junos_rpc:
+        rpcs:
+          - get-interface-information
+        formats: xml
+        provider:
+          host: "{{ ansible_host }}"
+          port: 22
+          user: "{{ ansible_ssh_user }}"
+          passwd: "{{ ansible_ssh_pass }}"
+      register: interfaces
+    - name: query interface address info
+      xml:
+        xmlstring: "{{ interfaces.stdout }}"
+        xpath: //logical-interface/address-family[address-family-name='inet']/interface-address/ifa-local
+        content: text
+      register: ip_addr
+    - name: show query results 
+      debug:
+        var: ip_addr.matches

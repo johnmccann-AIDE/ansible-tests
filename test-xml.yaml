@@ -1,0 +1,16 @@
+---
+- name: test with ansible's xml module
+  hosts:
+    - localhost
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: xpath
+      xml: 
+        path: 172.26.138.34_get-interface-information.xml
+        xpath: //physical-interface/name | //physical-interface/oper-status
+        content: text
+      register: interface_info
+    - name: show xpath results
+      debug:
+        var: interface_info

@@ -1,0 +1,12 @@
+[belfast]
+mx34
+ptx3000
+
+[derry]
+vmx1
+vmx2
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python
+ansible_ssh_user=root
+ansible_ssh_pass=Be1fast

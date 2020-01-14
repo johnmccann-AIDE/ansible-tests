@@ -1,0 +1,10 @@
+---
+aja2_host:
+  dns_servers: 
+    - 172.26.138.141
+    - 8.8.8.8
+  ntp_servers:
+    - 66.129.233.81
+  snmp:
+    description: vMX test device
+    location: derry lab

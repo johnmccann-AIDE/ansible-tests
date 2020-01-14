@@ -1,0 +1,54 @@
+#jinja2: lstrip_blocks: True
+{% set model = junos.model.lower() %}
+
+{#- Determine SSH connection-limit and rate-limit based on device facts #}
+{% if model == 'vmx' %}
+    {% set max_ssh = 5 %}
+{% elif model == 'ex4200-48p' %}
+    {% set max_ssh = 10 %}
+{% else %}
+    {% set max_ssh = 20 %}
+{% endif %}
+
+{#- Generate basic settings for the device #}
+system {
+    host-name {{ inventory_hostname }}
+    domain-name jnpr.belfast
+    domain-search [ 172.26.138.141 jnpr.net ];
+    root-authentication {
+        encrypted-password "{{ root_hash }}";
+    }
+    login {
+        user john {
+            uid 2004;
+            class super-user;
+            authentication {
+                ssh-rsa "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3YxLtw+dZ+fMCAqh9ODi1EHOgM0xLcaAkjeLqrMwCh3FeT0xfZVD8DSyfZ1RF4wCS02mVWCqbOg0P9rn/ACBM5rYTV0kqOlrU4wx4qqkGvSUfRHGpmhC3nc6bagq+l9sxKEXgAsDZGiscpuvbdfYGBCKewXRpsMeaBE9oyv5+k6Wa2LdscTooU1dqh8k6vZ6F5HeJk5/Sk1Xy6gWx/a8RGDkRs+xru8avCVvD5BYsEZ1gc5Bwid6A8YIXHIwL5dRHnMfEV6PEO6jKU+2Pi2B6I/Vk7NC9ClvpNsOCmYozf1tJwghLW9Scg9iY7Sixzdd9TiHWy+X8bWdNMrtAVKRx johnmccann@macbook-pro-2.jnpr.net"
+            }
+        }
+    }
+    replace:
+    name-server {
+        {% for server in aja2_host.dns_servers %}
+          {{ server }};
+        {% endfor %}
+    }
+    services {
+        netconf {
+            ssh {
+                connection-limit {{ max_ssh }};
+                rate-limit {{ max_ssh }};
+            }
+        }
+        ssh {
+            connection-limit {{ max_ssh }};
+            rate-limit {{ max_ssh }};
+        }
+    }
+    replace:
+    ntp {
+        {% for ntp in aja2_host.ntp_servers %}
+          server {{ ntp }}
+        {% endfor %}
+    }
+}

@@ -1,0 +1,25 @@
+---
+- name: Get device uptime
+  hosts: 
+    - all
+  roles:
+    - Juniper.junos
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Enable NETCONF SSH and traceoptions, save config, and diffs.
+      juniper_junos_config:
+        load: 'merge'
+        lines:
+          - 'set system services netconf ssh connection-limit 5'
+          - 'set system services netconf ssh rate-limit 5'
+          #- 'set security zones security-zone trust host-inbound-traffic system-services netconf'
+        format: 'set'
+        retrieve: 'candidate'
+        filter: 'system/services'
+        comment: 'Enable NETCONF with traceoptions'
+        dest_dir: './output'
+      register: response
+    - name: Print the complete response
+      debug:
+        var: response

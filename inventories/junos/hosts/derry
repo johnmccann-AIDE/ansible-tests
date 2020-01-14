@@ -1,0 +1,13 @@
+[derry:children]
+dry_access
+dry_core
+
+[dry_access]
+vm1
+vm6
+
+[dry_core]
+vm2
+vm3
+vm4
+vm5

@@ -1,0 +1,15 @@
+---
+- name: confirm or create device config folder
+  file:
+    path: "{{ config_assemble }}"
+    state: directory
+
+- name: delete previous build folder
+  file:
+    path: "{{ config_assemble_build }}"
+    state: absent
+
+- name: create build folder
+  file:
+    path: "{{ config_assemble_build }}"
+    state:  directory

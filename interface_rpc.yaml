@@ -1,0 +1,28 @@
+---
+- name: Get device interfaces rpc
+  hosts: 
+    - all
+  roles:
+    - Juniper.junos
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: get interfaces using galaxy module
+      juniper_junos_rpc:
+        rpcs:
+          - get-interface-information
+        dest_dir: '.'
+        return_output: no
+        formats: xml
+        kwargs:
+          terse: True
+          interface_name: xe-1/*
+        provider:
+          host: "{{ ansible_host }}"
+          port: 22
+          user: "{{ ansible_ssh_user }}"
+          passwd: "{{ ansible_ssh_pass }}"
+      register: interfaces
+    - name: display interfaces 
+      debug:
+        var: interfaces

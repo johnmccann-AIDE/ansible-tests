@@ -1,0 +1,52 @@
+---
+- name: Get LLDP neighbour information
+  hosts:
+    - all
+  roles:
+    - Juniper.junos
+  connection: local
+  gather_facts: no
+
+  vars:
+    connection_settings:
+      host: "{{ ansible_host }}"
+    tmp_dir: "{{ user_data_path }}/tmp"
+    template_dir: "template"
+  
+  tasks:
+    - name: get lldp neighbour table
+      juniper_junos_rpc:
+        provider: "{{ connection_settings }}"
+        rpcs: get-lldp-neighbors-information
+        format: xml
+      register: lldp
+
+    - name:
+      debug:
+        var: lldp.stdout_lines
+
+    - name: get neighbour details
+      xml:
+        xmlstring: "{{ lldp.stdout }}"
+        xpath: //lldp-neighbor-information[starts-with(lldp-local-port-id, '{{ item }}')]/lldp-remote-system-name | //lldp-neighbor-information[starts-with(lldp-local-port-id, '{{ item }}')]/lldp-remote-port-id
+        content: text
+      loop: "{{ uplinks }}"
+      register: neighbours
+
+    - name: show neighbor results
+      debug:
+        msg: "{{ item.matches }}"
+      loop: "{{ neighbours.results }}"
+      loop_control:
+        label: "{{ item.item }}"
+
+    - name: save interface descriptions, template 1
+      template:
+        src: "{{ template_dir }}/int-desc-1.j2"
+        dest: "{{ tmp_dir }}/{{ inventory_hostname }}-{{ item.item | replace('/', '-') }}.conf"
+      loop: "{{ neighbours.results }}"
+
+    - name: save interface descriptions, template 2
+      template:
+        src: "{{ template_dir }}/int-desc-2.j2"
+        dest: "{{ tmp_dir }}/{{ inventory_hostname }}.conf"

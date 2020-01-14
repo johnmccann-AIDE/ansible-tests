@@ -1,0 +1,40 @@
+---
+- name: Get LLDP neighbour information
+  hosts:
+    - all
+  roles:
+    - Juniper.junos
+  connection: local
+  gather_facts: no
+
+  vars:
+    connection_settings:
+      host: "{{ ansible_host }}"
+
+  tasks:
+    - name: get lldp neighbour table
+      juniper_junos_rpc:
+        provider: "{{ connection_settings }}"
+        rpcs: get-lldp-interface-neighbors
+        kwargs:
+          interface-device: "{{ item }}"
+        formats: xml
+      loop: "{{ uplinks }}"
+      register: lldp
+
+    - name: display lldp neighbour data
+      xml:
+        xmlstring: "{{ item }}"
+        xpath: //lldp-remote-system-name | //lldp-remote-port-description
+        content: text
+      loop: "{{ lldp.results | map(attribute='stdout') | list }}"
+      register: neighbours
+      loop_control:
+        label: "{{ item | regex_search('<lldp-local-interface>[^<]+') }}"
+
+    - name: show neighbour details
+      debug:
+        msg: "{{ item.matches }}"
+      loop: "{{ neighbours.results }}"
+      loop_control: 
+        label: "{{ item.item | regex_search('<lldp-local-interface>[^<]+') }}" 

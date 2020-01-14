@@ -1,0 +1,6 @@
+---
+ansible_python_interpreter: /usr/bin/python
+user_data_path: "{{ '~/ansible' | expanduser }}"
+ansible_ssh_user: root
+root_hash: "{{ vault_root_hash }}"
+ansible_ssh_pass: Be1fast

@@ -1,0 +1,5 @@
+---
+ansible_host: 172.26.138.35
+uplinks:
+    - xe-1/2/0
+    - xe-1/0/0

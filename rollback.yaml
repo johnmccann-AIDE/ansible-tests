@@ -1,0 +1,22 @@
+---
+- name: Manipulate the configuration of Junos devices
+  hosts: 
+    - all
+  connection: local
+  gather_facts: no
+  roles:
+    - Juniper.junos
+  vars_prompt:
+    - name: rnumber
+      prompt: "How far to rollback"
+      default: 1
+      register: rback
+  tasks:  
+    - name: Rollback to the previous config.
+      juniper_junos_config:
+        config_mode: 'private'
+        rollback: "{{ rnumber }}"
+      register: response
+    - name: Print the config changes.
+      debug:
+        var: response.diff_lines

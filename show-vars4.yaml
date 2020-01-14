@@ -1,0 +1,20 @@
+---
+- name: Show variables 4, localhost
+  hosts:
+    - localhost
+  connection: local
+  gather_facts: yes
+  tasks:
+    - name: construct timestamp
+      set_fact:
+        timestamp: "{{ ansible_date_time.weekday }} {{ ansible_date_time.date }} at {{ ansible_date_time.time }}"
+
+- name: Show variables 4, device play
+  hosts:
+    - all
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: display localhost timestamp
+      debug:
+        var: hostvars.localhost.timestamp
