@@ -1,0 +1,5 @@
+- hosts: all
+  name: check servers alive
+  gather_facts: false
+  roles: 
+    - { role: ping, tags: ["infra"] }

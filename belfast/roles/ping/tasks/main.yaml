@@ -1,0 +1,8 @@
+- name: Wait For Server to restart
+  local_action:
+    module: wait_for
+      host="{{ inventory_hostname }}"
+      port=22
+      delay=30
+      sleep=30
+      timeout="{{ reachable_timeout }}"
