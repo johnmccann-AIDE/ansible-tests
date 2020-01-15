@@ -41,27 +41,24 @@
     state: disabled
 
 - name: set timezone
-    shell: timedatectl set-timezone Europe/Dublin
-#- name: Install NTP
-#    yum: name=ntp state=installed 
-#    tags: ntp
+  shell: timedatectl set-timezone Europe/Dublin
 - name: Copy over the NTP configuration
-    template: src=./templates/ntp.conf dest=/etc/ntp.conf
-    notify:
-    - restart ntpd
-    tags: ntp
+  template: src=./templates/ntp.conf dest=/etc/ntp.conf
+  notify:
+  - restart ntpd
+  tags: ntp
 - name: Make sure NTP is stopped
-    service: name=ntpd state=stopped enabled=yes
-    tags: ntp
+  service: name=ntpd state=stopped enabled=yes
+  tags: ntp
 - name: Sync time initialy
-    shell: ntpdate 172.16.20.1
-    tags: ntp
+  shell: ntpdate 172.16.20.1
+  tags: ntp
 - name: Make sure NTP is started up
-    service: name=ntpd state=running enabled=yes
-    tags: ntp
+  service: name=ntpd state=running enabled=yes
+  tags: ntp
 - name: Sync hwclock
-    shell: hwclock -w
-    tags: ntp
+  shell: hwclock -w
+  tags: ntp
 
 - name: Update hosts file
   blockinfile:
@@ -71,7 +68,3 @@
       {% for item in ansible_play_batch %}
       {{ hostvars[item].ansible_ssh_host }}   {{ item }}
       {% endfor %}
-
-handlers:
-  - name: restart ntpd
-    service: name=ntpd state=restarted
