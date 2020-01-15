@@ -1,0 +1,11 @@
+[master]
+melmore ansible_ssh_host=172.26.138.143
+
+[workers]
+mulroy ansible_ssh_host=172.26.138.144
+swilly ansible_ssh_host=172.26.138.145
+
+[all:vars]
+ansible_ssh_user=root
+ansible_ssh_pass=Be1fast
+ansible_ssh_common_args=-o StrictHostKeyChecking=no

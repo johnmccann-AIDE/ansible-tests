@@ -1,0 +1,33 @@
+- firewalld:
+    port: 8080/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+- firewalld:
+    port: 6443/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+- firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+- firewalld:
+    port: 10250/udp
+    permanent: yes
+    state: enabled
+    immediate: yes
+- name: Sets enforce
+  shell: setenforce 0
+- name: Disable SELinux
+  selinux:
+    state: disabled
+- name: Update hosts file
+  blockinfile:
+    path: /etc/hosts
+    create: yes
+    block: |
+      {% for item in ansible_play_batch %}
+      {{ hostvars[item].ansible_ssh_host }}   {{ item }}
+      {% endfor %}

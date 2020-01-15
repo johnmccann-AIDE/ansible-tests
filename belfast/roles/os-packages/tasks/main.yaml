@@ -1,0 +1,14 @@
+- name: Install Software requirements
+  yum:
+   name:
+    - yum-plugin-fastestmirror
+    - yum-utils
+    - epel-release
+    - deltarpm
+    - rsync
+    - net-tools
+    - python3
+    - device-mapper-persistent-data
+    - lvm2
+    - sshpass
+    - ntp
