@@ -21,18 +21,38 @@
 - name: Enable firewalld
   service: name=firewalld state=started enabled=yes
 
-- iptables_raw:
-  name: allow_tcp_port_6443
-  rules: '-A OUTPUT -p tcp --dport 6443 -j ACCEPT'
-- iptables_raw:
-  name: allow_tcp_port_10250
-  rules: '-A OUTPUT -p tcp --dport 10250 -j ACCEPT'
-- iptables_raw:
-  name: allow_tcp_port_80
-  rules: '-A OUTPUT -p tcp --dport 80 -j ACCEPT'
-- iptables_raw:
-  name: allow_tcp_port_8080
-  rules: '-A OUTPUT -p tcp --dport 8080 -j ACCEPT'
+- name: allow_tcp_port_6443
+  iptables: 
+    chain: INPUT
+    protocol: tcp
+    destination_port: 6443
+    ctstate: NEW
+    jump: ACCEPT
+    comment: Accept connections on port 6443
+- name: allow_tcp_port_10250
+  iptables: 
+    chain: INPUT
+    protocol: tcp
+    destination_port: 10250
+    ctstate: NEW
+    jump: ACCEPT
+    comment: Accept connections on port 6443
+- name: allow_tcp_port_80
+  iptables: 
+    chain: INPUT
+    protocol: tcp
+    destination_port: 80
+    ctstate: NEW
+    jump: ACCEPT
+    comment: Accept connections on port 6443
+- name: allow_tcp_port_8080
+  iptables: 
+    chain: INPUT
+    protocol: tcp
+    destination_port: 8080
+    ctstate: NEW
+    jump: ACCEPT
+    comment: Accept connections on port 6443
 
 - name: Sets enforce
   shell: setenforce 0
