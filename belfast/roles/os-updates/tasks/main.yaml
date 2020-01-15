@@ -18,6 +18,18 @@
     permanent: yes
     state: enabled
     immediate: yes
+- name: set IPtable rule for tcp port 6443
+  command: iptables -A OUTPUT -p tcp --dport 6443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+- name: set IPtable rule for tcp port 10250
+  command: iptables -A OUTPUT -p tcp --dport 10250 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+- name: set IPtable rule for tcp port 80
+  command: iptables -A OUTPUT -p tcp --dport 80 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+- name: set IPtable rule for tcp port 8080
+  command: iptables -A OUTPUT -p tcp --dport 8080 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+- name: save iptables
+  service: iptables-save
+- name: restart iptables
+  command: name=ufw state=restarted
 - name: Sets enforce
   shell: setenforce 0
 - name: Disable SELinux
