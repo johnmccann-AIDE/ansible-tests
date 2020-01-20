@@ -24,11 +24,11 @@ def main():
     v1 = client.CoreV1Api(aApiClient)
     while True:
         c = 0
-        stat = "None"
         ret = v1.list_node(watch=False)
         #print("Node\tStatus\tRole\tInternalIP\tOS-Image")
         for i in ret.items:
             noderole = "None"
+            stat = "None"
             for label in i.metadata.labels:
                 if "node-role" in label:
                     nodelabel = label.split("/")
