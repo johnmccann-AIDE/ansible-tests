@@ -29,14 +29,16 @@ def main():
     # Do calls
     v1 = client.CoreV1Api(aApiClient)
     print("Name\tType\tCluster IP\tExternal IP\tPorts")
-    ret = v1.list_namespaced_service("kube-system")
-    for i in ret.items:
-        #print("pods: %s"%i)
-        portRef = ""
-        for p in i.spec.ports:
-            portRef = portRef + str(p.port) + "/" + p.protocol + ","
-            
-        print("%s\t%s\t%s\t%s\t%s" %
+    namespaces = {"default", "kube-system"}
+    for namespace in namespaces:
+        print("namespace: %s"%namespace)
+        ret = v1.list_namespaced_service(namespace)
+        for i in ret.items:
+            #print("pods: %s"%i)
+            portRef = ""
+            for p in i.spec.ports:
+                portRef = portRef + str(p.port) + "/" + p.protocol + ","
+            print("%s\t%s\t%s\t%s\t%s" %
               (i.metadata.name, i.spec.type, i.spec.cluster_ip, i.spec.external_i_ps, portRef.strip(",")))
 
 if __name__ == '__main__':
