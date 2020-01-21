@@ -90,7 +90,7 @@ class TestServices(unittest.TestCase):
                     portRef = portRef + str(p.port) + "/" + p.protocol + ","
         self.assertIsNone(portRef)
 
-    def test_nginx-controller_svc(self):
+    def test_nginx_controller_svc(self):
         """
         verify that all nodes are online
         """
@@ -110,7 +110,7 @@ class TestServices(unittest.TestCase):
                     portRef = portRef + str(p.port) + "/" + p.protocol + ","
         self.assertIsNone(portRef)
 
-    def test_nginx-default_backend_svc(self):
+    def test_nginx_default_backend_svc(self):
         """
         verify that all nodes are online
         """
