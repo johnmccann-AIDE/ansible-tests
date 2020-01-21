@@ -22,10 +22,12 @@ def main():
     
     # Do calls
     v1 = client.CoreV1Api(aApiClient)
+    print ("Waiting for Nodes to be ready.....")
     while True:
         c = 0
         ret = v1.list_node(watch=False)
         #print("Node\tStatus\tRole\tInternalIP\tOS-Image")
+        itemc = len(ret.items)
         for i in ret.items:
             noderole = "None"
             stat = "None"
@@ -40,12 +42,12 @@ def main():
                 if "InternalIP" in addr.type:
                     #print("IP: %s"%addr)
                     ipAddr = str(addr.address)
-            print("%s\t%s" %
-                  (i.metadata.name, stat))
+            #print("%s\t%s" %
+            #      (i.metadata.name, stat))
                   #, noderole, ipAddr, i.status.node_info.os_image))
             if "Ready" in stat:
                 c = c + 1
-        if c == 3:
+        if c == itemc:
             break
 
 if __name__ == '__main__':
