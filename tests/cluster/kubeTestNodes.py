@@ -3,6 +3,8 @@ import yaml
 from kubernetes import utils, client, config
 from kubernetes.client.rest import ApiException
 
+yaml.warnings({'YAMLLoadWarning': False})
+
 class TestNodes(unittest.TestCase):
 
    
@@ -11,7 +13,6 @@ class TestNodes(unittest.TestCase):
         verify that all nodes are online
         """
         result = ""
-        yaml.warnings({'YAMLLoadWarning': False})
         # Create a configuration object
         aConfiguration = config.load_kube_config()
 
@@ -38,7 +39,6 @@ class TestNodes(unittest.TestCase):
         verify that all nodes are online
         """
         result = ""
-        yaml.warnings({'YAMLLoadWarning': False})
         # Create a configuration object
         aConfiguration = config.load_kube_config()
 

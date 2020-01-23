@@ -1,12 +1,26 @@
 import unittest
 import yaml
+import os
+import warnings
 from kubernetes import utils, client, config
 from kubernetes.client.rest import ApiException
-import warnings
+
 
 yaml.warnings({'YAMLLoadWarning': False})
 inventory = ['melmore.jnpr.belfast', 'mulroy.jnpr.belfast', 'swilly.jnpr.belfast']
 s1 = set(inventory)
+
+# check in correct folder
+cwd = os.getcwd()
+print("current folder %s"%cwd)
+if not cwd.endswith("tests"):
+    if "tests" in cwd:
+        npath = cwd.split("tests")
+        filepath = npath[0] + "tests/"
+        print("filepath %s"%filepath)
+else:
+    filepath = cwd + "/"
+    print("filepath %s"%filepath)
 
 class TestUtils(unittest.TestCase):
 
@@ -23,7 +37,7 @@ class TestUtils(unittest.TestCase):
         core_v1 = client.CoreV1Api(aApiClient)
 
         utils.create_from_yaml(
-            aApiClient, "files/" + "app-deployment.yaml")
+            aApiClient, filepath + "cluster/files/" + "app-deployment.yaml")
         app_api = client.AppsV1Api(aApiClient)
         dep = app_api.read_namespaced_deployment(name="kubernetes-dashboard",
                                                  namespace="kube-system")
@@ -50,7 +64,7 @@ class TestUtils(unittest.TestCase):
         core_v1 = client.CoreV1Api(aApiClient)
 
         utils.create_from_yaml(
-            aApiClient, "files/" + "core-pod.yaml")
+            aApiClient, filepath + "cluster/files/" + "core-pod.yaml")
         core_api = client.CoreV1Api(aApiClient)
         pod = core_api.read_namespaced_pod(name="myapp-pod",
                                            namespace="default")
@@ -72,7 +86,7 @@ class TestUtils(unittest.TestCase):
         core_v1 = client.CoreV1Api(aApiClient)
 
         utils.create_from_yaml(
-            aApiClient, "files/"+ "core-service.yaml")
+            aApiClient, filepath + "cluster/files/"+ "core-service.yaml")
         core_api = client.CoreV1Api(aApiClient)
         svc = core_api.read_namespaced_service(name="my-service",
                                                namespace="default")
@@ -94,7 +108,7 @@ class TestUtils(unittest.TestCase):
         core_v1 = client.CoreV1Api(aApiClient)
 
         utils.create_from_yaml(
-            aApiClient, "files/" + "rbac-role.yaml")
+            aApiClient, filepath + "cluster/files/" + "rbac-role.yaml")
         rbac_api = client.RbacAuthorizationV1Api(aApiClient)
         rbac_role = rbac_api.read_namespaced_role(name="pod-reader", 
                                                   namespace="default")
@@ -117,7 +131,7 @@ class TestUtils(unittest.TestCase):
         core_v1 = client.CoreV1Api(aApiClient)
 
         utils.create_from_yaml(
-            aApiClient, "files/" + "api-service.yaml")
+            aApiClient, filepath + "cluster/files/" + "api-service.yaml")
         reg_api = client.ApiregistrationV1beta1Api(aApiClient)
         svc = reg_api.read_api_service(
             name="v1alpha1.wardle.k8s.io")
@@ -125,7 +139,7 @@ class TestUtils(unittest.TestCase):
 
         with self.assertRaises(utils.FailToCreateError) as cm:
             utils.create_from_yaml(
-                aApiClient, "files/api-service.yaml")
+                aApiClient, filepath + "cluster/files/api-service.yaml")
         exp_error = ('Error from server (Conflict): '
                      '{"kind":"Status","apiVersion":"v1","metadata":{},'
                      '"status":"Failure",'
@@ -154,7 +168,7 @@ class TestUtils(unittest.TestCase):
         core_v1 = client.CoreV1Api(aApiClient)
 
         utils.create_from_yaml(
-            aApiClient, "files/" + "multi-resource.yaml")
+            aApiClient, filepath + "cluster/files/" + "multi-resource.yaml")
         core_api = client.CoreV1Api(aApiClient)
         svc = core_api.read_namespaced_service(name="mock",
                                                namespace="default")
@@ -181,7 +195,7 @@ class TestUtils(unittest.TestCase):
         core_v1 = client.CoreV1Api(aApiClient)
 
         utils.create_from_yaml(
-            aApiClient, "files/" + "multi-resource-with-list.yaml")
+            aApiClient, filepath + "cluster/files/" + "multi-resource-with-list.yaml")
         core_api = client.CoreV1Api(aApiClient)
         app_api = client.AppsV1Api(aApiClient)
         pod_0 = core_api.read_namespaced_pod(

@@ -28,7 +28,7 @@ class TestServices(unittest.TestCase):
                 portRef = ""
                 for p in i.spec.ports:
                     portRef = portRef + str(p.port) + "/" + p.protocol + ","
-        self.assertIsNone(portRef)
+        self.assertIsNotNone(portRef)
 
     def test_kubernetes_svc(self):
         """
@@ -48,7 +48,7 @@ class TestServices(unittest.TestCase):
                 portRef = ""
                 for p in i.spec.ports:
                     portRef = portRef + str(p.port) + "/" + p.protocol + ","
-        self.assertIsNone(portRef)
+        self.assertIsNotNone(portRef)
 
     def test_calico_svc(self):
         """
@@ -68,7 +68,7 @@ class TestServices(unittest.TestCase):
                 portRef = ""
                 for p in i.spec.ports:
                     portRef = portRef + str(p.port) + "/" + p.protocol + ","
-        self.assertIsNone(portRef)
+        self.assertIsNotNone(portRef)
 
     def test_kube_dns_svc(self):
         """
@@ -88,7 +88,7 @@ class TestServices(unittest.TestCase):
                 portRef = ""
                 for p in i.spec.ports:
                     portRef = portRef + str(p.port) + "/" + p.protocol + ","
-        self.assertIsNone(portRef)
+        self.assertIsNotNone(portRef)
 
     def test_nginx_controller_svc(self):
         """
@@ -108,7 +108,7 @@ class TestServices(unittest.TestCase):
                 portRef = ""
                 for p in i.spec.ports:
                     portRef = portRef + str(p.port) + "/" + p.protocol + ","
-        self.assertIsNone(portRef)
+        self.assertIsNotNone(portRef)
 
     def test_nginx_default_backend_svc(self):
         """
@@ -128,7 +128,7 @@ class TestServices(unittest.TestCase):
                 portRef = ""
                 for p in i.spec.ports:
                     portRef = portRef + str(p.port) + "/" + p.protocol + ","
-        self.assertIsNone(portRef)
+        self.assertIsNotNone(portRef)
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
