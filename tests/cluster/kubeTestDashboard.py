@@ -12,7 +12,7 @@ print("current folder %s"%cwd)
 if not cwd.endswith("/tests"):
     if "/tests" in cwd:
         npath = cwd.split("/tests")
-        filepath = npath[0] + "tests/"
+        filepath = npath[0] + "/tests/"
         print("filepath %s"%filepath)
     else:
         filepath = cwd + "/tests/"
@@ -47,7 +47,7 @@ aApiClient = client.ApiClient(aConfiguration)
 
 class TestDashboard(unittest.TestCase):
 
-    def test_create_user_cluster_role(self):
+    def test_a_create_user_cluster_role(self):
         # create service account and cluster role bindings
         try:
             utils.create_from_yaml(
@@ -68,15 +68,15 @@ class TestDashboard(unittest.TestCase):
             print("Exception creating user role: %s\n"%e)
 
         # tidy up created settings
-        try:
+        """ try:
             core_api = client.CoreV1Api(aApiClient)
             resp = core_api.delete_namespaced_service_account(name="admin-user", namespace='kube-system')
             rbac_api = client.RbacAuthorizationV1Api(aApiClient)
             resp = rbac_api.delete_cluster_role_binding(name="admin-user")
         except ApiException as e:
-            print("Exception deleting user role: %s\n"%e)
+            print("Exception deleting user role: %s\n"%e) """
 
-    def test_create_user_duplicate(self):
+    def test_b_create_user_duplicate(self):
         # create a dupluicate user
         #self.maxDiff = None
         try:    
@@ -95,7 +95,7 @@ class TestDashboard(unittest.TestCase):
         except ApiException as e:
             print("Exception creating duplicate user role: %s\n"%e)
 
-    def test_create_secret_certs(self):
+    def test_c_create_secret_certs(self):
         # create certificates
         try:
             utils.create_from_yaml(
@@ -122,7 +122,8 @@ class TestDashboard(unittest.TestCase):
         except ApiException as e:
             print("Exception creating certs: %s\n"%e)
 
-        try:
+        # tidy up created settings
+        """ try:
             certs_resp = core_api.delete_namespaced_secret(name="kubernetes-dashboard-certs", namespace="kube-system")
             print("certs response %s " %certs_resp)
             csrf_resp = core_api.delete_namespaced_secret(name="kubernetes-dashboard-csrf", namespace="kube-system")
@@ -130,9 +131,9 @@ class TestDashboard(unittest.TestCase):
             keyh_resp = core_api.delete_namespaced_secret(name="kubernetes-dashboard-key-holder", namespace="kube-system")
             print("certs response %s " %keyh_resp)
         except ApiException as e:
-            print("Exception deleting certs: %s\n"%e)
+            print("Exception deleting certs: %s\n"%e) """
 
-    def test_create_config_map(self):
+    def test_d_create_config_map(self):
         # create config map
         try:
             utils.create_from_yaml(
@@ -147,13 +148,13 @@ class TestDashboard(unittest.TestCase):
             print("Exception creating config map: %s\n"%e)
 
         # tidy up created settings
-        try:
+        """ try:
             core_api = client.CoreV1Api(aApiClient)
             resp = core_api.delete_namespaced_config_map(name="kubernetes-dashboard-settings", namespace='kube-system')
         except ApiException as e:
-            print("Exception deleting config map: %s\n"%e)
+            print("Exception deleting config map: %s\n"%e) """
 
-    def test_create_cluster_role(self):
+    def test_e_create_cluster_role(self):
         # create cluster role
         try:
             utils.create_from_yaml(
@@ -168,13 +169,13 @@ class TestDashboard(unittest.TestCase):
             print("Exception creating cluster role: %s\n"%e)
 
         # tidy up created settings
-        try:
+        """ try:
             core_api = client.RbacAuthorizationV1Api(aApiClient)
             resp = core_api.delete_namespaced_cluster_role(name="kubernetes-dashboard", namespace='kube-system')
         except ApiException as e:
-            print("Exception deleting cluster role: %s\n"%e)
+            print("Exception deleting cluster role: %s\n"%e) """
 
-    def test_create_role_bindings(self):
+    def test_f_create_role_bindings(self):
         # create cluster role
         try:
             utils.create_from_yaml(
@@ -189,13 +190,13 @@ class TestDashboard(unittest.TestCase):
             print("Exception creating role: %s\n"%e)
 
         # tidy up created settings
-        try:
+        """ try:
             core_api = client.RbacAuthorizationV1Api(aApiClient)
             resp = core_api.delete_namespaced_role(name="kubernetes-dashboard", namespace='kube-system')
         except ApiException as e:
-            print("Exception deleting role: %s\n"%e)
+            print("Exception deleting role: %s\n"%e) """
 
-    def test_create_cluster_role_bindings(self):
+    def test_g_create_cluster_role_bindings(self):
         # create cluster role
         try:
             utils.create_from_yaml(
@@ -210,13 +211,13 @@ class TestDashboard(unittest.TestCase):
             print("Exception creating role: %s\n"%e)
 
         # tidy up created settings
-        try:
+        """ try:
             core_api = client.RbacAuthorizationV1Api(aApiClient)
             resp = core_api.delete_cluster_role_binding(name="kubernetes-dashboard", namespace='kube-system')
         except ApiException as e:
-            print("Exception deleting role: %s\n"%e)
+            print("Exception deleting role: %s\n"%e) """
 
-    def test_create_deployment(self):
+    def test_h_create_deployment(self):
         # create deployment
         try:
             utils.create_from_yaml(
@@ -231,14 +232,14 @@ class TestDashboard(unittest.TestCase):
             print("Exception creating app: %s\n"%e)
 
         # tidy up created settings
-        try:
+        """ try:
             apps_api = client.AppsV1Api(aApiClient)
             resp = apps_api.delete_namespaced_deployment(name="kubernetes-dashboard", namespace='kube-system')
         except ApiException as e:
-            print("Exception deleting app: %s\n"%e)
+            print("Exception deleting app: %s\n"%e) """
 
 
-    def test_create_metrics_service(self):
+    def test_i_create_metrics_service(self):
         # create service
         try:
             utils.create_from_yaml(
@@ -253,14 +254,14 @@ class TestDashboard(unittest.TestCase):
             print("Exception creating service: %s\n"%e)
 
         # tidy up created settings
-        try:
+        """ try:
             core_api = client.CoreV1Api(aApiClient)
             resp = core_api.delete_namespaced_service(name="dashboard-metrics-scraper", namespace='kube-system')
         except ApiException as e:
-            print("Exception deleting service: %s\n"%e)
+            print("Exception deleting service: %s\n"%e) """
 
 
-    def test_create_metrics_deployment(self):
+    def test_j_create_metrics_deployment(self):
         # create deployment
         try:
             utils.create_from_yaml(
@@ -275,11 +276,11 @@ class TestDashboard(unittest.TestCase):
             print("Exception creating app: %s\n"%e)
 
         # tidy up created settings
-        try:
+        """ try:
             apps_api = client.AppsV1Api(aApiClient)
             resp = apps_api.delete_namespaced_deployment(name="dashboard-metrics-scraper", namespace='kube-system')
         except ApiException as e:
-            print("Exception deleting app: %s\n"%e)
+            print("Exception deleting app: %s\n"%e) """
 
 
 if __name__ == '__main__':

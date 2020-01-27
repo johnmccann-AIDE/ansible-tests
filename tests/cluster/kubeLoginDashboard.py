@@ -1,17 +1,3 @@
-# token radio button - 
-# xpath
-# //*[@id="mat-radio-6"]/label/div[1]
-# full xpath
-# /html/body/kd-root/kd-login/div/kd-card/mat-card/div/mat-card-content/div/div/form/mat-radio-group/div[2]/mat-radio-button/label/div[1]
-
-# token entry field - 
-# xpath 
-# /html/body/kd-root/kd-login/div/kd-card/mat-card/div/mat-card-content/div/div/form/mat-form-field/div/div[1]
-
-# sign-in button - 
-# xpath
-# /html/body/kd-root/kd-login/div/kd-card/mat-card/div/mat-card-content/div/div/form/div/button/div[1]
-
 import unittest
 import time
 import os
@@ -90,7 +76,6 @@ def getDashboardPort():
             print("dashboard service: %s"%i)
             for p in i.spec.ports:
                 portRef = str(p.node_port)
-                #portRef = portRef + str(p.port) + "/" + p.protocol + ","
     return portRef
 
 
