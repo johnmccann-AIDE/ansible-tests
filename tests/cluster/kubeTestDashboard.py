@@ -160,7 +160,7 @@ class TestDashboard(unittest.TestCase):
             utils.create_from_yaml(
                 aApiClient, filepath + "cluster/files/" + "dashboard-clusterrole.yaml")
             core_api = client.RbacAuthorizationV1Api(aApiClient)
-            cluster_resp = core_api.read_namespaced_cluster_role(name="kubernetes-dashboard", namespace="kube-system")
+            cluster_resp = core_api.read_cluster_role(name="kubernetes-dashboard")
             #print("cluster role response %s " %cluster_resp)
 
             self.assertIsNotNone(cluster_resp)
@@ -202,7 +202,7 @@ class TestDashboard(unittest.TestCase):
             utils.create_from_yaml(
                 aApiClient, filepath + "cluster/files/" + "dashboard-clusterrolebinding.yaml")
             core_api = client.RbacAuthorizationV1Api(aApiClient)
-            role_resp = core_api.read_cluster_role_binding(name="kubernetes-dashboard", namespace="kube-system")
+            role_resp = core_api.read_cluster_role_binding(name="kubernetes-dashboard")
             #print("role response %s " %role_resp)
 
             self.assertIsNotNone(cluster_resp)
