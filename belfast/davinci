@@ -1,0 +1,12 @@
+[master]
+bundoran.jnpr.belfast ansible_ssh_host=172.26.138.110
+
+[workers]
+ardara.jnpr.belfast ansible_ssh_host=172.26.138.111
+killybegs.jnpr.belfast ansible_ssh_host=172.26.138.112
+
+[all:vars]
+ansible_ssh_user=root
+ansible_ssh_pass=Be1fast
+ansible_ssh_common_args=-o StrictHostKeyChecking=no
+reachable_timeout=300
