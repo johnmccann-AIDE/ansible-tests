@@ -71,7 +71,7 @@
   service: name=ntpd state=stopped enabled=yes
   tags: ntp
 - name: Sync time initialy
-  shell: ntpdate 66.129.233.81
+  shell: ntpdate 172.26.138.141
   tags: ntp
 - name: Make sure NTP is started up
   service: name=ntpd state=started enabled=yes
